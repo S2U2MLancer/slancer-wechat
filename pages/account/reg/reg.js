@@ -1,26 +1,23 @@
-// pages/me/me.js
-import * as accountAPIs from '../apis/Login';
+import { Gender } from "../apis/Constant";
 
-const app = getApp()
-
+// pages/account/reg/reg.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    isLogin: false,
-    userInfo: {
-      avatarUrl: "",
-      nickName: ""
-    }
+    wechatUserInfo: {},
+
+    genders: [Gender[0], Gender[1], Gender[2]],
+    genderIndex: 0,
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(`${this.data.isLogin}`)
   },
 
   /**
@@ -70,27 +67,5 @@ Page({
    */
   onShareAppMessage: function () {
   
-  },
-
-  loginSuccess: function(resp) {
-  },
-
-  loginFailed: function(err) {
-  },
-
-  wxLoginSuccessCB: function(res) {
-    if (!res.code) {
-      console.warn('登录失败！' + res.errMsg)
-      return
-    }
-
-    console.debug(`Wx Login Code: ${res.code}`);
-    accountAPIs.login(res.code, loginSuccess, loginFailed)
-  },
-
-  login: function() {
-    wx.login({
-      success: this.wxLoginSuccessCB
-    })
   }
 })

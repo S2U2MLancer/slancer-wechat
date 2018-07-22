@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/account/reg/reg",
     "pages/account/me/me",
     "pages/index/index"
   ],
@@ -18,6 +19,10 @@
       {
         "pagePath": "pages/account/me/me",
         "text": "我"
+      },
+      {
+        "pagePath": "pages/account/reg/reg",
+        "text": "注册"
       }
     ]
   },
