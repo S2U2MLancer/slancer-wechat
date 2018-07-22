@@ -1,0 +1,36 @@
+<!--pages/account/me/me.wxml-->
+<view class="page">
+  <view class='page__hd'>
+    <!-- login  -->
+    <view class="weui-flex" wx:if="{{isLogin}}">
+      <view class="weui-flex__item">
+        <view class="weui-cell">
+          <view class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+            <image src="{{userInfo.avatarUrl}}" style="width: 50px; height: 50px; display: block"/>
+          </view>
+          <view class="weui-cell__bd">
+            <view>{{userInfo.nickName}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- not login  -->
+    <view class='weui-flex' wx:else>
+      <view class="weui-flex__item">
+        <button class='weui-btn' type='primary' bindtap='login'>
+          登录
+        </button>
+      </view>
+    </view>
+  </view>
+  <view class='page__bd'>
+    <view class='weui-cells'>
+      <view class='weui-cell weui-cell_access'>
+        <view style="display: inline-block; vertical-align: middle;">设置</view>
+      </view>
+      <view class='weui-cell weui-cell_access'>
+        <view style="display: inline-block; vertical-align: middle;">关于</view>
+      </view>
+    </view>
+  </view>
+</view>
