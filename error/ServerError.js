@@ -14,3 +14,7 @@ export class ServerError extends Error {
     this.code = serverErrorCode ^ (this.type << ErrTypeLfShift);
   }
 }
+
+export function serverErrorHandle(err) {
+  console.error(`ErrorType: ${err.type}, ErrorCode: ${err.code}`);
+}

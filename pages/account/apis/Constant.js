@@ -1,6 +1,6 @@
 
 export const Gender = {
-  0: 'Unknown',
-  1: 'Male',
-  2: 'Female',
+  0: '未知',
+  1: '男',
+  2: '女',
 }

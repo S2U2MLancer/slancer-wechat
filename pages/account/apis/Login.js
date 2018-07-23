@@ -1,7 +1,19 @@
-import { getServiceUrl } from "../../../net/ServerPathBuilder";
 import { HttpMethod } from "../../../net/Constant";
-import { SendRequest } from "../../../net/ServerHandler";
-import { LoginReqDTO } from "./DTO";
+import { sendRequest } from "../../../net/ServerHandler";
+import { LoginReqDTO, RegistReqDTO } from "./DTO";
+
+function loginSuccess(resp) {
+  wx.setStorage({
+    key: ClientKeys.Token,
+    data: resp.token
+  })
+
+  wx.setStorage({
+    key: ClientKeys.UserInfo,
+    data: resp.userInfo
+  })
+}
+
 
 /**
  * 
@@ -10,8 +22,21 @@ import { LoginReqDTO } from "./DTO";
  */
 export function login(code, success, failed) {
   const reqData = new LoginReqDTO(code)
-  SendRequest('/weChat/login', HttpMethod.GET, null, reqData, success, failed)
+  sendRequest(
+    null, '/weChat/login', HttpMethod.GET, 
+    null, reqData, 
+    (resp) => {
+      this.loginSuccess(resp)
+      success(resp)
+    }, 
+    failed
+  )
 }
 
-export function reg() {
+export function reg(regInfo, success, failed) {
+  sendRequest(null, '/weChat/regist', HttpMethod.POST, null, reqData,
+  (resp) => {
+    this.loginSuccess(resp)
+    success(resp)
+  }, failed)
 }

@@ -1,4 +1,7 @@
 import { Gender } from "../apis/Constant";
+import * as accountApis from "../apis/Login";
+import {serverErrorHandle} from '../../../error/ServerError';
+import { RegistReqDTO } from "../apis/DTO";
 
 // pages/account/reg/reg.js
 Page({
@@ -7,17 +10,44 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loginCode: null,
     wechatUserInfo: {},
 
     genders: [Gender[0], Gender[1], Gender[2]],
     genderIndex: 0,
 
+    birthday: null
+
+  },
+
+  getWechatUserInfoCb(res) {
+    this.setData({
+      wechatUserInfo: res.userInfo,
+      genderIndex: res.userInfo.gender
+    })
+  },
+
+  checkSetting: function(res) {
+    if (!res.authSetting['scope.userInfo']) {
+      return
+    }
+
+    wx.getUserInfo({
+      success: this.getWechatUserInfoCb
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.setData({
+      loginCode: options.code
+    })
+
+    wx.getSetting({
+      success: this.checkSetting
+    })
   },
 
   /**
@@ -67,5 +97,23 @@ Page({
    */
   onShareAppMessage: function () {
   
+  },
+
+  regSuccessCb: function(resp) {
+    wx.navigateBack()
+  },
+
+  regFailedCb: function(err) {
+    serverErrorHandle(err)
+  },
+
+  reg: function() {
+    const regInfo = new RegistReqDTO(
+      this.data.loginCode, 
+      this.data.wechatUserInfo.nickName,
+      this.data.wechatUserInfo.gender,
+      this.data.birthday
+    )
+    accountApis.reg(regInfo, this.regSuccessCb, this.regFailedCb)
   }
 })

@@ -1,5 +1,5 @@
 
-const ServerKey = {
+export const ServerKey = {
   Code: 'code',
   Data: 'data',
   ErrorMsg: 'errMsg',
@@ -7,5 +7,3 @@ const ServerKey = {
   Token: 'token',
   UserInfo: 'user_info',
 };
-
-export default ServerKey;

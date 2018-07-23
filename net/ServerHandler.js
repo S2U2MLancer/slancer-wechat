@@ -1,9 +1,10 @@
 import * as appConfig from '../config/AppConfig';
-import { ContentType } from 'c:/Users/XIAYY8~1/AppData/Local/Temp/Constant-b29eaae9__2832rwN0na268vNu';
+import {HttpMethod, ContentType} from './Constant';
 import { ServerError } from '../error/ServerError';
+import {ServerKey} from './ServerKeys';
 
 function getServiceUrl(relUrl) {
-  const paths = (appConfig.AccountServiceHost, relUrl)
+  const paths = [appConfig.AccountServiceHost, relUrl]
   return paths.join('/')
 }
 
@@ -49,7 +50,8 @@ function responseHandle(serviceUrl, res, success, failed) {
  * @param {Function} success 
  * @param {Function} failed 
  */
-export function sendRequest(serviceUrl, httpMethod, header, data, success, failed) {
+export function sendRequest(token, serviceUrl, httpMethod, header, data, success, failed) {
+  console.debug(`SendRequest: ${serviceUrl}`)
   const apiUrl = getServiceUrl(serviceUrl);
   const reqHeader = {
     'content-type': ContentType.APPLICATION_JSON
@@ -59,6 +61,10 @@ export function sendRequest(serviceUrl, httpMethod, header, data, success, faile
     for(let key in header) {
       reqHeader[key] = header[key]
     }
+  }
+
+  if (token) {
+    reqHeader[ServerKey.Token] = token;
   }
 
   wx.request({

@@ -14,7 +14,7 @@
           <view class="weui-label">昵称</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="{{wechatUserInfo.userName}}" />
+          <input class="weui-input" placeholder="{{wechatUserInfo.nickName}}" />
         </view>
       </view>
 
@@ -34,15 +34,15 @@
           <view class="weui-label">日期</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="date" value="{{date}}" start="1900-01-01" end="2100-01-01" bindchange="bindDateChange">
-            <view class="weui-input">{{date}}</view>
+          <picker mode="birthday" value="{{birthday}}" start="1900-01-01" end="2100-01-01" bindchange="bindDateChange">
+            <view class="weui-input">{{birthday}}</view>
           </picker>
         </view>
       </view>
     </view>
 
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" bindtap="showTopTips">注册</button>
+      <button class="weui-btn" open-type="getUserInfo" type="primary" bindtap="reg">注册</button>
     </view>
   </view>
 </view>

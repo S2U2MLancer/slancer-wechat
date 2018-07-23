@@ -1,5 +1,8 @@
 // pages/me/me.js
 import * as accountAPIs from '../apis/Login';
+import { AccountErrorType, AccountErrorCode } from '../../../error/AccountError';
+import {serverErrorHandle} from '../../../error/ServerError';
+import {ClientKeys} from '../../../config/ClientKeys';
 
 const app = getApp()
 
@@ -10,6 +13,7 @@ Page({
    */
   data: {
     isLogin: false,
+    loginCode: null,
     userInfo: {
       avatarUrl: "",
       nickName: ""
@@ -34,7 +38,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    wx.getStorage({
+      key: ClientKeys.UserInfo,
+      success: (res) => {
+        if (!res.data) {
+          return
+        }
+
+        this.setData({
+          isLogin: true,
+          userInfo: res.data,
+          loginCode: null
+        })
+      }
+    })
   },
 
   /**
@@ -73,9 +90,19 @@ Page({
   },
 
   loginSuccess: function(resp) {
+    this.setData({
+      isLogin: true,
+      userInfo: resp.userInfo
+    })
   },
 
   loginFailed: function(err) {
+    if (err.type == AccountErrorType && err.code == AccountErrorCode.UserNotExisted) {
+      wx.navigateTo(`../reg/reg?code=${this.data.loginCode}`)
+      return
+    }
+
+    serverErrorHandle(err)
   },
 
   wxLoginSuccessCB: function(res) {
@@ -83,9 +110,12 @@ Page({
       console.warn('登录失败！' + res.errMsg)
       return
     }
-
+    
     console.debug(`Wx Login Code: ${res.code}`);
-    accountAPIs.login(res.code, loginSuccess, loginFailed)
+    this.setData({
+      loginCode: res.code
+    })
+    accountAPIs.login(res.code, this.loginSuccess, this.loginFailed)
   },
 
   login: function() {
