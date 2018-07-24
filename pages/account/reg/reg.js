@@ -2,6 +2,7 @@ import { Gender } from "../apis/Constant";
 import * as accountApis from "../apis/Login";
 import {serverErrorHandle} from '../../../error/ServerError';
 import { RegistReqDTO } from "../apis/DTO";
+import { dateFormat } from '../../../utils/date';
 
 // pages/account/reg/reg.js
 Page({
@@ -41,8 +42,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    const date = new Date();
     this.setData({
-      loginCode: options.code
+      loginCode: options.code,
+      birthday: dateFormat(date, "yyyy-MM-dd")
     })
 
     wx.getSetting({

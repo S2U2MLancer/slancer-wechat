@@ -97,8 +97,10 @@ Page({
   },
 
   loginFailed: function(err) {
-    if (err.type == AccountErrorType && err.code == AccountErrorCode.UserNotExisted) {
-      wx.navigateTo(`../reg/reg?code=${this.data.loginCode}`)
+    if (err.type === AccountErrorType && err.code === AccountErrorCode.UserNotExisted) {
+      wx.navigateTo({
+        url: `../reg/reg?code=${this.data.loginCode}`
+      })
       return
     }
 

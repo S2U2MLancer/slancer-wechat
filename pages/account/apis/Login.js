@@ -23,7 +23,7 @@ function loginSuccess(resp) {
 export function login(code, success, failed) {
   const reqData = new LoginReqDTO(code)
   sendRequest(
-    null, '/weChat/login', HttpMethod.GET, 
+    null, '/account/weChat/login', HttpMethod.POST, 
     null, reqData, 
     (resp) => {
       this.loginSuccess(resp)
@@ -34,7 +34,7 @@ export function login(code, success, failed) {
 }
 
 export function reg(regInfo, success, failed) {
-  sendRequest(null, '/weChat/regist', HttpMethod.POST, null, reqData,
+  sendRequest(null, '/account/weChat/register', HttpMethod.POST, null, regInfo,
   (resp) => {
     this.loginSuccess(resp)
     success(resp)

@@ -4,8 +4,9 @@ import { ServerError } from '../error/ServerError';
 import {ServerKey} from './ServerKeys';
 
 function getServiceUrl(relUrl) {
-  const paths = [appConfig.AccountServiceHost, relUrl]
-  return paths.join('/')
+  // const paths = [appConfig.AccountServiceHost, relUrl]
+  // return paths.join('/')
+  return `${appConfig.AccountServiceHost}${relUrl}`
 }
 
 function respSuccess(res, success, failed) { 
@@ -51,8 +52,9 @@ function responseHandle(serviceUrl, res, success, failed) {
  * @param {Function} failed 
  */
 export function sendRequest(token, serviceUrl, httpMethod, header, data, success, failed) {
-  console.debug(`SendRequest: ${serviceUrl}`)
   const apiUrl = getServiceUrl(serviceUrl);
+  console.debug(`SendRequest: ${apiUrl}`)
+
   const reqHeader = {
     'content-type': ContentType.APPLICATION_JSON
   }
@@ -73,7 +75,10 @@ export function sendRequest(token, serviceUrl, httpMethod, header, data, success
     header: reqHeader,
     data: data,
     success: (res) => {
-      this.responseHandle(serviceUrl, res, success, failed)
+      responseHandle(serviceUrl, res, success, failed)
+    },
+    fail: (err) => {
+      console.error(err)
     }
   })
 }

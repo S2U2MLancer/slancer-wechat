@@ -34,7 +34,7 @@
           <view class="weui-label">日期</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="birthday" value="{{birthday}}" start="1900-01-01" end="2100-01-01" bindchange="bindDateChange">
+          <picker mode="date" value="{{birthday}}" start="1900-01-01" end="2100-01-01" bindchange="bindDateChange">
             <view class="weui-input">{{birthday}}</view>
           </picker>
         </view>
